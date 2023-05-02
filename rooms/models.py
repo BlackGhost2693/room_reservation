@@ -17,6 +17,9 @@ class Room(RootModel):
     price = models.PositiveIntegerField()
     available = models.BooleanField(default=True)
 
+    def __str__(self):
+        return str(self.id)
+
 
 class Reservation(RootModel):
     """
@@ -29,6 +32,6 @@ class Reservation(RootModel):
     phone = models.CharField(max_length=13)
 
     def __str__(self):
-        return f"{self.room}|{self.reservationist}"
+        return f"{self.room}|{self.check_in}-{self.check_out}"
 
 
