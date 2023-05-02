@@ -15,7 +15,6 @@ class Room(RootModel):
     )
     type = models.CharField(choices=ROOM_TYPE, max_length=6)
     price = models.PositiveIntegerField()
-    available = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.id)
