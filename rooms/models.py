@@ -31,6 +31,6 @@ class Reservation(RootModel):
     phone = models.CharField(max_length=13)
 
     def __str__(self):
-        return f"{self.room}|{self.check_in}-{self.check_out}"
+        return f"room {self.room}| reserved dates {self.check_in}-{self.check_out}"
 
 

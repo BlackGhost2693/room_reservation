@@ -14,4 +14,4 @@ def reservation_checker(check_in, check_out, room):
         room=room).filter(cond1 | cond2 | cond3)
     if reservation.exists():
         raise NotAcceptable(
-            'A reservation with this date range already exists.')
+            f"Reservation {reservation.get()} already exists.")
