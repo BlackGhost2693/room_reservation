@@ -1,7 +1,8 @@
 from django.db import models
+from core.base_model import RootModel
 
 
-class Room(models.Model):
+class Room(RootModel):
     """
     model class for rooms
     """
@@ -17,7 +18,7 @@ class Room(models.Model):
     available = models.BooleanField(default=True)
 
 
-class Reservation(models.Model):
+class Reservation(RootModel):
     """
     model class for users reservations
     """
