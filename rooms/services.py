@@ -2,11 +2,11 @@ from rest_framework.exceptions import NotAcceptable
 from .models import Reservation
 
 
-def reservation_checker(c_in, c_out, room):
+def reservation_checker(from_date, to_date, room):
     """
     Checks given check-in and check-out date coverage with exist reservations
     """
-    reservation = Reservation.objects.filter(room=room).find_reservations(c_in, c_out)
+    reservation = Reservation.objects.filter(room=room).find_reservations(from_date, to_date)
     if reservation.exists():
         raise NotAcceptable(
-            {"exist reservations": list(reservation.values('room', 'check_in', 'check_out'))})
+            {"exist reservations": list(reservation.values('room', 'date'))})
