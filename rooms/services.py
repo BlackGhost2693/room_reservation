@@ -14,4 +14,4 @@ def reservation_checker(check_in, check_out, room):
         room=room).filter(cond1 | cond2 | cond3)
     if reservation.exists():
         raise NotAcceptable(
-            f"Reservation {reservation.get()} already exists.")
+            {"exist reservations": list(reservation.all().values('room', 'check_in', 'check_out'))})
