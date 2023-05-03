@@ -1,3 +1,4 @@
+import time
 from datetime import date, timedelta
 from rest_framework import serializers
 from .models import Reservation
@@ -54,3 +55,29 @@ class ReservationSerializer(serializers.ModelSerializer):
             "reservationist",
             "phone"
         ]
+
+
+class TimestampRangeSerializer(serializers.Serializer):
+    """
+    serializer class for timestamps given from endpoint /rooms/available
+    """
+    current_ts = int(time.time())
+    week_ts = current_ts + 7*24*3600
+    from_ts = serializers.CharField()
+    to_ts = serializers.CharField()
+
+    def validate(self, attrs):
+        from_ts = attrs.get("from_ts")
+        to_ts = attrs.get("to_ts")
+        if not from_ts.isdigit() or not to_ts.isdigit():
+            raise serializers.ValidationError("Invalid timestamp.")
+        if not self.current_ts <= int(from_ts) <= int(to_ts) <= self.week_ts:
+            raise serializers.ValidationError("Invalid time range.")
+        return super().validate(attrs)
+
+    @property
+    def default_values(self):
+        return {
+            "from_ts": self.current_ts,
+            "to_ts": self.week_ts
+        }
