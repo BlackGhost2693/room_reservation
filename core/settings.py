@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     # third-party apps
     'rest_framework',
     'drf_yasg',
+    'drf_standardized_errors',
 
     # project apps
     'rooms'
@@ -155,6 +156,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],
+    'EXCEPTION_HANDLER': 'drf_standardized_errors.handler.exception_handler',
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
     ],
@@ -163,3 +165,6 @@ REST_FRAMEWORK = {
 if DEBUG:
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"].append(
         "rest_framework.renderers.BrowsableAPIRenderer")
+
+# https://github.com/ghazi-git/drf-standardized-errors
+DRF_STANDARDIZED_ERRORS = {"ENABLE_IN_DEBUG_FOR_UNHANDLED_EXCEPTIONS": True}
