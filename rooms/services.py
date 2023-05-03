@@ -1,17 +1,12 @@
-from django.db.models import Q
 from rest_framework.exceptions import NotAcceptable
 from .models import Reservation
 
 
-def reservation_checker(check_in, check_out, room):
+def reservation_checker(c_in, c_out, room):
     """
     Checks given check-in and check-out date coverage with exist reservations
     """
-    cond1 = Q(check_in__range=[check_in, check_out])
-    cond2 = Q(check_out__range=[check_in, check_out])
-    cond3 = Q(check_in__lte=check_in, check_out__gte=check_out)
-    reservation = Reservation.objects.filter(
-        room=room).filter(cond1 | cond2 | cond3)
+    reservation = Reservation.objects.filter(room=room).find_reservations(c_in, c_out)
     if reservation.exists():
         raise NotAcceptable(
-            {"exist reservations": list(reservation.all().values('room', 'check_in', 'check_out'))})
+            {"exist reservations": list(reservation.values('room', 'check_in', 'check_out'))})
