@@ -6,7 +6,11 @@ def reservation_checker(from_date, to_date, room):
     """
     Checks given check-in and check-out date coverage with exist reservations
     """
-    reservation = Reservation.objects.filter(room=room).find_reservations(from_date, to_date)
-    if reservation.exists():
+    reservation = list(
+        Reservation.objects.filter(room=room)
+        .find_reservations(from_date, to_date)
+        .values('room', 'date')
+    )
+    if reservation:
         raise NotAcceptable(
-            {"exist reservations": list(reservation.values('room', 'date'))})
+            {"exist reservations": reservation})

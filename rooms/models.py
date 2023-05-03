@@ -53,7 +53,7 @@ class Reservation(RootModel):
     objects = ReservationManager()
 
     def __str__(self):
-        return f"room {self.room}| reserved date {self.date}"
+        return f"room {self.room_id}| reserved date {self.date}"
 
     class Meta:
         constraints = [
