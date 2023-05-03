@@ -1,3 +1,6 @@
+autopep8==2.0.2
+django-query-counter==0.2.2
 drf-standardized-errors==0.12.5
 drf-yasg==1.21.5
+pandas==2.0.1
 python-dotenv==1.0.0
