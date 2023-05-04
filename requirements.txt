@@ -1,3 +1,5 @@
+django==4.2
+djangorestframework==3.14.0
 django-query-counter==0.2.2
 drf-standardized-errors==0.12.5
 drf-yasg==1.21.5
