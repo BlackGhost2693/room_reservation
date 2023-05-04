@@ -19,6 +19,9 @@ class Room(RootModel):
     def __str__(self):
         return str(self.id)
 
+    class Meta:
+        db_table = 'room'
+
 
 class ReservationQuerySet(models.query.QuerySet):
     """
@@ -56,6 +59,7 @@ class Reservation(RootModel):
         return f"room {self.room_id}| reserved date {self.date}"
 
     class Meta:
+        db_table = 'reservation'
         constraints = [
             models.UniqueConstraint(
                 fields=['date', 'room'], name='unique_date_room')
