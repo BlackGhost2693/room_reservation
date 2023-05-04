@@ -8,4 +8,5 @@ Project features:
 + Soft delete
 + Tuned queries to prevent duplicates in bulk insert
 + The listing owner can get an overview of the booked rooms on admin panel
++ A reservation is for a name (any string) and for a date
 + API documentaion on /swagger/ and /redoc/
