@@ -1,4 +1,5 @@
 import time
+from datetime import date
 from django.utils.functional import cached_property
 from rest_framework import serializers
 from .models import Room, Reservation
@@ -32,14 +33,14 @@ class MakeReservationSerializer(serializers.ModelSerializer):
         return rooms
 
     def validate(self, attrs):
-        date = attrs.get("date")
-        room = attrs.get("room")
-        if not date.today() <= date:
+        _date = attrs.get("date")
+        _room = attrs.get("room")
+        if not date.today() <= _date:
             raise serializers.ValidationError(
                 "Invalid date for reservation.")
-        if room not in self.all_rooms:
+        if _room not in self.all_rooms:
             raise serializers.ValidationError(
-                f"Invalid room {room} - object does not exist.")
+                f"Invalid room {_room} - object does not exist.")
         return super().validate(attrs)
 
     class Meta:
