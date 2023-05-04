@@ -1,37 +1,51 @@
 import time
-from datetime import date
+from django.utils.functional import cached_property
 from rest_framework import serializers
-from .models import Reservation
+from .models import Room, Reservation
 from .validators import phone_validator
-from .services import reservation_checker
 
 
 class ReservationSerializer(serializers.ModelSerializer):
     """
-    serializer class to make reservations
+    serializer class for reservations
     """
-    from_date = serializers.DateField(write_only=True)
-    to_date = serializers.DateField(write_only=True)
-    phone = serializers.CharField(validators=[phone_validator])
-
-    def validate(self, attrs):
-        from_date = attrs.get("from_date")
-        to_date = attrs.get("to_date")
-        room = attrs.get("room")
-        if not date.today() <= from_date <= to_date:
-            raise serializers.ValidationError(
-                "Invalid range of date for reservation.")
-        reservation_checker(from_date, to_date, room)
-        return super().validate(attrs)
-
-    def is_valid(self, *, raise_exception=False):
-        return super().is_valid(raise_exception=raise_exception)
 
     class Meta:
         model = Reservation
         fields = [
-            "from_date",
-            "to_date",
+            "date",
+            "room",
+        ]
+
+
+class MakeReservationSerializer(serializers.ModelSerializer):
+    """
+    serializer class to make reservations
+    """
+    room = serializers.IntegerField()
+    phone = serializers.CharField(validators=[phone_validator])
+
+    @cached_property
+    def all_rooms(self):
+        queryset = Room.objects.all().values("id")
+        rooms = [room['id'] for room in queryset]
+        return rooms
+
+    def validate(self, attrs):
+        date = attrs.get("date")
+        room = attrs.get("room")
+        if not date.today() <= date:
+            raise serializers.ValidationError(
+                "Invalid date for reservation.")
+        if room not in self.all_rooms:
+            raise serializers.ValidationError(
+                f"Invalid room {room} - object does not exist.")
+        return super().validate(attrs)
+
+    class Meta:
+        model = Reservation
+        fields = [
+            "date",
             "room",
             "reservationist",
             "phone"
