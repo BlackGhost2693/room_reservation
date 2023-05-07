@@ -10,3 +10,7 @@ Project features:
 + The listing owner can get an overview of the booked rooms on admin panel
 + A reservation is for a name (any string) and for a date
 + API documentaion on /swagger/ and /redoc/
+
+Project structure
++ `core`: contain django configurations
++ `rooms`: application for managing rooms 
